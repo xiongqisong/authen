@@ -1,10 +1,12 @@
 package com.xqs.service.base;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class FeatureServiceImpl implements FeatureService {
 	@Override
 	@Transactional
 	public Feature create(Feature feature) {
+		Date now = new Date();
+		feature.setCreateTime(now);
+		feature.setUpdateTime(now);
 		return dao.create(feature);
 	}
 
@@ -52,7 +57,7 @@ public class FeatureServiceImpl implements FeatureService {
 	}
 
 	@Override
-	public Map<Long, Map<Long, List<Feature>>> layerFilter(List<Feature> features) {
+	public Map<Long, Map<Long, List<Feature>>> layerFilter(Set<Feature> features) {
 		long rootLayer = 0L;
 		long deepestLayer = 0L;
 		Map<Long, Map<Long, List<Feature>>> result = new LinkedHashMap<Long, Map<Long, List<Feature>>>();// 采用LinkedHashMap保证层级的顺序
@@ -90,5 +95,10 @@ public class FeatureServiceImpl implements FeatureService {
 
 	private static long currentLayer(Feature feature) {
 		return feature.getParentIds().split("/").length;// 根功能的parentIds的表示形式为0/
+	}
+
+	@Override
+	public void batchCreate(List<Feature> features) {
+		dao.batchCreate(features);
 	}
 }

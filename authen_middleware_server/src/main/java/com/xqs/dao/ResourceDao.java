@@ -1,5 +1,6 @@
 package com.xqs.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +24,9 @@ public class ResourceDao extends IdEntityDao<Resource> {
 	// 批量插入这个方法有性能问题，可以考虑优化
 	public void batchCreate(List<Resource> list){
 		for(Resource r : list){
+			Date now = new Date();
+			r.setCreateTime(now);
+			r.setUpdateTime(now);
 			create(r);
 		}
 		/*SessionFactory sf = this.getSession().getSessionFactory();

@@ -1,5 +1,6 @@
 package com.xqs.service.base;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User create(User user) {
+		Date now = new Date();
+		user.setCreateTime(now);
+		user.setUpdateTime(now);
 		passwordHelper.encryptPassword(user);
 		return dao.create(user);
 	}
@@ -65,26 +69,5 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByUsernameAndApp(String username, String appKey) {
 		return dao.findByUsernameAndApp(username, appKey);
-	}
-
-	/*
-	 * @Override public Set<String> findStringRoles(User user) {
-	 * Assert.notNull(user, "用户不应为空"); Set<String> stringRoles = new
-	 * HashSet<String>(); List<Role> roles = findRoles(user); if (roles != null
-	 * && !roles.isEmpty()) { for (Role role : roles) {
-	 * stringRoles.add(role.getRole()); } } return stringRoles; }
-	 * 
-	 * public Set<String> findPermissions(User user) { Assert.notNull(user,
-	 * "用户不应为空"); List<Long> roleIds = user.getRoles(); return
-	 * roleService.findFeatures(roleIds.toArray(new Long[roleIds.size()])); }
-	 */
-
-	@Override
-	public User initAdmin(App app, Role admin) {
-		Assert.notNull(app, "应用不应为空");
-		Assert.notNull(admin, "超级管理员角色不应不存在");
-		User sysUser = new User(0L, app, "admin", "123456", admin.getId().toString(), false);
-		create(sysUser);
-		return sysUser;
 	}
 }

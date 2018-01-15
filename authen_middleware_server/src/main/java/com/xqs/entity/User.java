@@ -4,11 +4,15 @@ package com.xqs.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,7 +21,10 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.StringUtils;
 
+import com.xqs.entity.Feature.FeatureType;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,12 +38,9 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
 public class User extends IdEntity<User> implements java.io.Serializable {
 	@Column(name = "organization_id")
 	private Long organizationId;
@@ -51,8 +55,8 @@ public class User extends IdEntity<User> implements java.io.Serializable {
 
 	private String salt;
 
-	@Column(name = "role_ids")
-	private String roleIds;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	private Set<Role> role;
 
 	private Boolean locked;
 
@@ -62,32 +66,13 @@ public class User extends IdEntity<User> implements java.io.Serializable {
 	@Column(name = "update_time")
 	private Date updateTime;
 
-	public User(Long organizationId, App app, String username, String password, String roleIds, Boolean locked) {
+	public User(Long organizationId, App app, String username, String password, Set<Role> role, Boolean locked) {
 		this.organizationId = organizationId;
 		this.app = app;
 		this.username = username;
 		this.password = password;
-		this.roleIds = roleIds;
+		this.role = role;
 		this.locked = locked;
-	}
-
-	/**
-	 * 获取用户拥有的所有角色的id集合
-	 * 
-	 * @return
-	 */
-	public List<Long> getRoles() {
-		List<Long> result = null;
-		if (!StringUtils.isEmpty(this.roleIds)) {
-			String[] array = this.roleIds.split(",");
-			if (array.length > 0) {
-				result = new ArrayList<Long>();
-				for (String roleId : array) {
-					result.add(Long.valueOf(roleId));
-				}
-			}
-		}
-		return result;
 	}
 
 	public String getCredentialsSalt() {

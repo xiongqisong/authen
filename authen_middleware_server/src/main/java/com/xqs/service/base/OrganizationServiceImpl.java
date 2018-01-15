@@ -1,5 +1,6 @@
 package com.xqs.service.base;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public Organization create(Organization organization) {
+		Date now = new Date();
+		organization.setCreateTime(now);
+		organization.setUpdateTime(now);
 		return dao.create(organization);
 	}
 

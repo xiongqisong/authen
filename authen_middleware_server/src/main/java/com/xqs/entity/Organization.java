@@ -1,6 +1,8 @@
 package com.xqs.entity;
 // Generated 2017-11-3 17:03:53 by Hibernate Tools 3.4.0.CR1
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +13,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.xqs.entity.Feature.FeatureType;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +30,7 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
+@Data
 public class Organization extends IdEntity<Organization> implements java.io.Serializable {
 	@JoinColumn(name = "app_id")
 	@ManyToOne(targetEntity = com.xqs.entity.App.class, fetch = FetchType.EAGER)
@@ -45,6 +45,12 @@ public class Organization extends IdEntity<Organization> implements java.io.Seri
 	private String parentIds;
 
 	private Boolean available;
+
+	@Column(name = "crete_time")
+	private Date createTime;
+
+	@Column(name = "update_time")
+	private Date updateTime;
 
 	public boolean isRootNode() {
 		return parentId == 0;

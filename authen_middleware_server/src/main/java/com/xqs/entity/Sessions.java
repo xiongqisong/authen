@@ -10,7 +10,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.xqs.entity.Feature.FeatureType;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +24,9 @@ import lombok.ToString;
 @Table(name = "sessions")
 @DynamicInsert
 @DynamicUpdate
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
 public class Sessions extends IdEntity<Sessions> implements Serializable {
 	private String sid;
 

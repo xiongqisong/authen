@@ -4,11 +4,14 @@ package com.xqs.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,7 +19,10 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.StringUtils;
 
+import com.xqs.entity.Feature.FeatureType;
+
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +36,9 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
+@NoArgsConstructor
 public class Role extends IdEntity<Role> implements java.io.Serializable {
 	@JoinColumn(name = "app_id")
 	@ManyToOne(targetEntity = com.xqs.entity.App.class, fetch = FetchType.EAGER)
@@ -45,8 +48,8 @@ public class Role extends IdEntity<Role> implements java.io.Serializable {
 
 	private String description;
 
-	@Column(name = "feature_ids")
-	private String featureIds;
+	@ManyToMany
+	private Set<Feature> feature;
 
 	@Column(name = "parent_id")
 	private Long parentId;
@@ -61,22 +64,4 @@ public class Role extends IdEntity<Role> implements java.io.Serializable {
 
 	@Column(name = "update_time")
 	private Date updateTime;
-
-	/**
-	 * 获取角色拥有的所有功能的id集合
-	 * 
-	 * @return
-	 */
-	public List<Long> getFeatures() {
-		List<Long> result = new ArrayList<Long>();
-		if (!StringUtils.isEmpty(this.featureIds)) {
-			String[] array = this.featureIds.split(",");
-			if (array.length > 0) {
-				for (String featureId : array) {
-					result.add(Long.valueOf(featureId));
-				}
-			}
-		}
-		return result;
-	}
 }

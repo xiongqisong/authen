@@ -1,5 +1,6 @@
 package com.xqs.service.base;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,9 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	@Transactional
 	public Role create(Role role) {
+		Date now = new Date();
+		role.setCreateTime(now);
+		role.setUpdateTime(now);
 		return dao.create(role);
 	}
 
@@ -53,11 +57,4 @@ public class RoleServiceImpl implements RoleService {
 	public List<Role> findRoles(Long... roleIds) {
 		return dao.findRoles(roleIds);
 	}
-
-	@Override
-	public Role initRoles(App app, String featureIds) {
-		Role admin = new Role(app, "admin", "超级管理员", featureIds, 0L, "0/", true, null, null);
-		return create(admin);
-	}
-
 }

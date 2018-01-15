@@ -31,13 +31,4 @@ public interface RoleService {
 	 * @return
 	 */
 	List<Role> findRoles(Long... roleIds);
-
-
-	/**
-	 * 为新建App初始化“超级管理员”角色
-	 * 
-	 * @param sysApp
-	 * @param resourceIds	所有一级目录资源的id字符串
-	 */
-	Role initRoles(App sysApp, String resourceIds);
 }

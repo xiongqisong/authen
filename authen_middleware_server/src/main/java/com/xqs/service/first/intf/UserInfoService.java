@@ -19,20 +19,12 @@ public interface UserInfoService {
 	public Map<Long, Map<Long, List<Feature>>> getFeatureLayers(User user);
 
 	/**
-	 * 得到用户拥有的所有角色
-	 * 
-	 * @param sysUser
-	 * @return
-	 */
-	List<Role> findRoles(User user);
-
-	/**
 	 * 得到用户拥有的所有功能
 	 * 
 	 * @param user
 	 * @return
 	 */
-	List<Feature> findFeatures(User user);
+	Set<Feature> findFeatures(User user);
 
 	/**
 	 * 得到用户拥有的所有资源

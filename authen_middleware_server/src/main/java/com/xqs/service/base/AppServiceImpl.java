@@ -1,9 +1,11 @@
 package com.xqs.service.base;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.xqs.dao.AppDao;
 import com.xqs.entity.App;
@@ -14,8 +16,11 @@ public class AppServiceImpl implements AppService {
 	@Autowired
 	private AppDao dao;
 
-	public App create(App SysApp) {
-		return dao.create(SysApp);
+	public App create(App app) {
+		Date now = new Date();
+		app.setCreateTime(now);
+		app.setUpdateTime(now);
+		return dao.create(app);
 	}
 
 	public App update(App base, App changed) {
@@ -32,5 +37,11 @@ public class AppServiceImpl implements AppService {
 
 	public List<App> findAll() {
 		return dao.findAll();
+	}
+
+	@Override
+	public App findByName(String name) {
+		Assert.notNull(name, "应用名称不应为空");
+		return dao.findByName(name);
 	}
 }

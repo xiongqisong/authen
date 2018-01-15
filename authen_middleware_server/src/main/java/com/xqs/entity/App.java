@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,29 +25,26 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
+@NoArgsConstructor
 public class App extends IdEntity<App> implements java.io.Serializable {
 	private String name;
-	
+
 	@Column(name = "context_path")
 	private String contextPath;
-	
+
 	@Column(name = "app_key")
 	private String appKey;
-	
+
 	@Column(name = "app_secret")
 	private String appSecret;
-	
+
 	private Boolean available;
-	
+
 	@Column(name = "create_time")
 	private Date createTime;
-	
+
 	@Column(name = "update_time")
 	private Date updateTime;
 }

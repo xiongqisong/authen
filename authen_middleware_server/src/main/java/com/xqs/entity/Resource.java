@@ -20,8 +20,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.sun.tools.javac.code.Attribute.Constant;
 import com.xqs.Constants;
+import com.xqs.entity.Feature.FeatureType;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,12 +37,9 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString
 public class Resource extends IdEntity<Resource> implements Serializable {
 	@JoinColumn(name = "app_id")
 	@ManyToOne(targetEntity = com.xqs.entity.App.class, fetch = FetchType.EAGER)

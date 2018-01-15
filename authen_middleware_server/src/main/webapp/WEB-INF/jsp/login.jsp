@@ -9,7 +9,7 @@
 
 <div class="error">${error}</div>
 <form action="" method="post">
-	<input type="hidden" name="appKey" value="1234567" />
+	<input type="hidden" name="appKey" value="abcdef" />
     用户名：<input type="text" name="username" value="<shiro:principal/>"><br/>
     密码：<input type="password" name="password"><br/>
     自动登录：<input type="checkbox" name="rememberMe" value="true"><br/>

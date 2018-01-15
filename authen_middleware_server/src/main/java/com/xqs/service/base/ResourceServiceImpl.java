@@ -1,5 +1,6 @@
 package com.xqs.service.base;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,8 +21,11 @@ public class ResourceServiceImpl implements ResourceService {
 	public ResourceDao dao;
 
 	@Transactional
-	public Resource create(Resource sysResource) {
-		return dao.create(sysResource);
+	public Resource create(Resource resource) {
+		Date now = new Date();
+		resource.setCreateTime(now);
+		resource.setUpdateTime(now);
+		return dao.create(resource);
 	}
 
 	public Resource get(Long id) {

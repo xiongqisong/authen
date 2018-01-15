@@ -13,9 +13,11 @@ public class RegisterController {
 	@Autowired
 	private RegisterService registerService;
 
+	@SuppressWarnings("unchecked")
 	@PostMapping(value = "app")
-	public Result<Void> registerApp(App app) {
+	public Result<App> registerApp(App app) {
 		registerService.registerApp(app);
-		return Result.success();
+		return Result.sucWithMsgData(
+				"please hold APP_KEY and APP_SECRET carefully, the server only distribute them once", app);
 	}
 }

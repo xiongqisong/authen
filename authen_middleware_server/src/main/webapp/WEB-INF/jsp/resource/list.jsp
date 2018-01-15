@@ -23,10 +23,14 @@
 </c:if>
 
 <table id="table">
+ 	<shiro:hasPermission name="resource:create">
+                        <c:if test="${resource.type ne 'button'}">
+                        	<a href="${pageContext.request.contextPath}/resource/${resource.id}/appendChild?sid=<%=SecurityUtils.getSubject().getSession(false).getId()%>">添加子节点</a>
+                        </c:if>
+	</shiro:hasPermission>
     <thead>
         <tr>
             <th>名称</th>
-            <th>类型</th>
             <th>URL路径</th>
             <th>权限字符串</th>
             <th>操作</th>
@@ -34,27 +38,17 @@
     </thead>
     <tbody>
         <c:forEach items="${resourceList}" var="resource">
-            <tr data-tt-id='${resource.id}' <c:if test="${not resource.rootNode}">data-tt-parent-id='${resource.parentId}'</c:if>>
+            <tr data-tt-id='${resource.id}'>
                 <td>${resource.name}</td>
-                <td>${resource.type.info}</td>
                 <td>${resource.url}</td>
                 <td>${resource.permission}</td>
                 <td>
-                    <shiro:hasPermission name="resource:create">
-                        <c:if test="${resource.type ne 'button'}">
-                        <a href="${pageContext.request.contextPath}/resource/${resource.id}/appendChild?sid=<%=SecurityUtils.getSubject().getSession(false).getId()%>">添加子节点</a>
-                        </c:if>
-                    </shiro:hasPermission>
-
                     <shiro:hasPermission name="resource:update">
                         <a href="${pageContext.request.contextPath}/resource/${resource.id}/update?sid=<%=SecurityUtils.getSubject().getSession(false).getId()%>">修改</a>
                     </shiro:hasPermission>
-                    <c:if test="${not resource.rootNode}">
-
                     <shiro:hasPermission name="resource:delete">
                         <a class="deleteBtn" href="${pageContext.request.contextPath}/resource/${resource.id}/delete?sid=<%=SecurityUtils.getSubject().getSession(false).getId()%>" data-id="${resource.id}">删除</a>
                     </shiro:hasPermission>
-                    </c:if>
                 </td>
             </tr>
         </c:forEach>

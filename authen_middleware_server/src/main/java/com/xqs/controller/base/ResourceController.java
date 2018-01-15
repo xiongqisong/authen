@@ -10,9 +10,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,17 +29,11 @@ import com.xqs.web.bind.annotation.CurrentUser;
 @RequestMapping("/resource")
 public class ResourceController {
 	private ResourceService resourceService;
-	private UserService userService;
-	private RoleService roleService;
-	private AppService appService;
 
 	@Autowired
 	public ResourceController(ResourceService sysResourceService, UserService sysUserService,
 			RoleService sysRoleService, AppService sysAppService) {
 		this.resourceService = sysResourceService;
-		this.userService = sysUserService;
-		this.roleService = sysRoleService;
-		this.appService = sysAppService;
 	}
 
 	/*@ModelAttribute("types")
@@ -49,7 +41,6 @@ public class ResourceController {
 		return Resource.ResourceType.values();
 	}*/
 
-	// TODO 资源树这个功能可以撤掉了，因为现在由"功能"去包装"资源"
 	/**
 	 * 获取指定用户的资源树(超级管理员可以看到全部资源)
 	 * 
@@ -57,7 +48,7 @@ public class ResourceController {
 	 * @param model
 	 * @return
 	 */
-	/*@RequiresPermissions("resource:view")
+	@RequiresPermissions("resource:view")
 	@GetMapping
 	public String list(@CurrentUser User loginUser, Model model) {
 		Subject subject = SecurityUtils.getSubject();
@@ -65,15 +56,10 @@ public class ResourceController {
 			// “超级管理员”可以查看应用的所有资源
 			model.addAttribute("resourceList", resourceService.findAll(loginUser.getApp().getId()));
 		} else {
-			List<Role> sysRoles = userService.findRoles(loginUser);
-			Set<Long> resourceIds = new HashSet<Long>();
-			for (Role sysRole : sysRoles) {
-				resourceIds.addAll(sysRole.getResources());
-			}
-			model.addAttribute("resourceList", resourceService.findResources(resourceIds));
+			throw new RuntimeException("非超级管理员角色的用户不允许查看系统资源列表");
 		}
 		return "/resource/list";
-	}*/
+	}
 
 	// TODO 展示添加资源界面也可以去掉了
 	/*@RequiresPermissions("resource:create")

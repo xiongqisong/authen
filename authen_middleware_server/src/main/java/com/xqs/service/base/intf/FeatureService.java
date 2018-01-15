@@ -2,6 +2,7 @@ package com.xqs.service.base.intf;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.xqs.entity.Feature;
 
@@ -30,7 +31,7 @@ public interface FeatureService {
 	 * @param features
 	 * @return
 	 */
-	Map<Long, Map<Long, List<Feature>>> layerFilter(List<Feature> features);
+	Map<Long, Map<Long, List<Feature>>> layerFilter(Set<Feature> features);
 
 	/**
 	 * 批量插入

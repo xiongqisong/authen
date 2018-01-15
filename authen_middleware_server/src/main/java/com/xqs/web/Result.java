@@ -24,8 +24,17 @@ public class Result<T> implements Serializable {
 		return new Result(ReturnCode.suc);
 	}
 
+	public static Result sucWithMsg(String msg) {
+		return sucWithMsgData(msg, null);
+	}
+
 	public static Result sucWithData(Object data) {
 		Result result = new Result(ReturnCode.suc, "", data);
+		return result;
+	}
+
+	public static Result sucWithMsgData(String msg, Object data) {
+		Result result = new Result(ReturnCode.suc, msg, data);
 		return result;
 	}
 

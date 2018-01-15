@@ -47,17 +47,13 @@ public class FeatureDaoTest extends BaseTest {
 		Feature f = dao.get(2L);
 		System.out.println(f.toString());
 	}
-	
+
 	@Test
-	public void testUpdate(){
+	public void testUpdate() {
 		Feature f = dao.get(8L);
 		Feature changed = f.clone();
 		changed.setName("测试");
 		dao.safeUpdate(f, changed);
 	}
-	
-	@Test
-	public void list(){
-		System.out.println(JSON.toJSONString(service.layerFilter(dao.findFeatures(new Long[]{6L,7L,8L}))));
-	}
+
 }

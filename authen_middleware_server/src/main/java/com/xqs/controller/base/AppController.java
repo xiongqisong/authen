@@ -33,24 +33,4 @@ public class AppController {
 		this.resourceService = resourceService;
 		this.userService = userService;
 	}
-
-	/**
-	 * 注册应用 1.创建应用 2.为应用初始化基础资源，并创建“超级管理员”角色
-	 * 
-	 * @param name
-	 * @param appKey
-	 * @param appSecret
-	 * @param available
-	 * @return
-	 */
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	@Transactional
-	public Result<Void> register(App sysApp) {
-		appService.create(sysApp);
-		String resourceIds = resourceService.initResources(sysApp);
-		Role admin = roleService.initRoles(sysApp, resourceIds);
-		userService.initAdmin(sysApp, admin);
-		return Result.success();
-	}
 }

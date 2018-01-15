@@ -12,4 +12,9 @@ public class AppDao extends IdEntityDao<App> {
 		String hql = "from App";
 		return createQuery(hql).list();
 	}
+
+	public App findByName(String name) {
+		String hql = "from App where name = :name";
+		return (App) createQuery(hql).setParameter("name", name).uniqueResult();
+	}
 }
